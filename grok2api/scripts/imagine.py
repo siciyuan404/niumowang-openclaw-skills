@@ -12,6 +12,10 @@ import base64
 from PIL import Image
 from io import BytesIO
 import os
+import io
+
+# Fix Windows console encoding
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # Service configuration
 BASE_URL = "http://localhost:8000"
@@ -44,6 +48,12 @@ def generate_image(prompt: str, output_path: str = None) -> None:
         # Handle response format (may vary based on actual API)
         if 'data' in result and len(result['data']) > 0:
             image_data = result['data'][0]
+
+            # Check for error response
+            if 'url' in image_data and image_data['url'] == 'error':
+                print("Error: Image generation failed. The grok2api service may not have image API configured.", file=sys.stderr)
+                print("Please check your grok2api configuration or xAI API setup.", file=sys.stderr)
+                sys.exit(1)
 
             # Check for URL or base64
             if 'url' in image_data:

@@ -146,4 +146,4 @@ python scripts/list_models.py
 
 **PowerShell curl 问题:** 使用 `curl.exe` 而不是 `curl`
 
-**图片/视频生成失败:** 检查网络连接，生成媒体需要与 xAI 服务器通信
+**图片/视频生成返回错误:** 当前 grok2api 镜像可能未正确配置 xAI 的图像/视频 API。API 返回 `{"url": "error"}` 表示后端服务异常或配置缺失。请检查 grok2api 的配置文件或更新到支持完整功能的版本。
